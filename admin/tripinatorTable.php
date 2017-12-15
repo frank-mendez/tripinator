@@ -118,6 +118,23 @@ class tripinatorTable extends WP_List_Table{
         return sprintf('<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['id']);
     }
 
+    function column_trip($item){
+        $url = plugins_url()."/tripinator/delete-trip.php";
+
+        $actions = array(
+            'edit'      => sprintf('<a href="?page=%s&action=%s&id=%s">Edit</a>',$_REQUEST['page'],'edit',$item['id']),
+            'delete'    => sprintf('<a href="?action=%s&id=%s">Delete</a>',$_REQUEST['page'],'delete',$item['id']),
+        );
+
+        //Return the title contents
+        return sprintf('%1$s <span style="color:silver">(id:%2$s)</span>%3$s',
+            /*$1%s*/ $item['trip'],
+            /*$2%s*/ $item['id'],
+            /*$3%s*/ $this->row_actions($actions)
+        );
+    }
+
+
     /**
      * Render the bulk edit checkbox
      * * @param array $item
@@ -160,7 +177,7 @@ class tripinatorTable extends WP_List_Table{
             }
             else {
                 self::delete_records(absint($_GET['record']));
-                $redirect = admin_url('admin.php?page=codingbin_records');
+                $redirect = admin_url('admin.php?page=tripinator-admin-page');
                 wp_redirect($redirect);
                 exit;
             }
@@ -176,7 +193,7 @@ class tripinatorTable extends WP_List_Table{
                 self::delete_records($id);
             }
 
-            $redirect = admin_url('admin.php?page=codingbin_records');
+            $redirect = admin_url('admin.php?page=tripinator-admin-page');
             wp_redirect($redirect);
             exit;
             exit;
