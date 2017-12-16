@@ -14,8 +14,8 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 global $wpdb;
-/* Globals */
 $tripinatorDB = $wpdb->prefix . "tripinator";
+
 require_once( 'tripinator-setup.php' );
 require_once( 'admin/admin-tripinator.php');
 

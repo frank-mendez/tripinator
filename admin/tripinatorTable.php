@@ -122,8 +122,8 @@ class tripinatorTable extends WP_List_Table{
         $url = plugins_url()."/tripinator/delete-trip.php";
 
         $actions = array(
-            'edit'      => sprintf('<a href="?page=%s&action=%s&id=%s">Edit</a>',$_REQUEST['page'],'edit',$item['id']),
-            'delete'    => sprintf('<a href="?action=%s&id=%s">Delete</a>',$_REQUEST['page'],'delete',$item['id']),
+            'edit'      => sprintf('<a href="admin.php?page=form-tripinator&action=%s&id=%s">Edit</a>','edit',$item['id']),
+            'delete'    => sprintf('<a href="admin.php?page=tripinator-admin-page&action=%s&id=%s">Delete</a>','delete',$item['id']),
         );
 
         //Return the title contents
