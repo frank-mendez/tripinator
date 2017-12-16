@@ -9,6 +9,7 @@ class Admin_Tripinator {
 
 	public function tripinator_init() {
 		add_action( 'admin_menu', array( $this, 'tripinator_add_options_page' ) );
+        add_action ('wp_loaded', array( $this, 'tripinator_submit_form' ) );
 	}
 
 	public function tripinator_add_options_page() {
@@ -34,9 +35,7 @@ class Admin_Tripinator {
 
 	}
 
-
-    public function tripinator_create_new() {
-
+	public function tripinator_submit_form() {
         if(isset($_POST['submit'])){
             $trip = $_POST['trip'];
             $days = $_POST['days'];
@@ -65,9 +64,14 @@ class Admin_Tripinator {
                 /*redirect*/
                 $redirect = admin_url('admin.php?page=tripinator-admin-page');
                 wp_redirect($redirect);
-                exit;
+                exit();
             }
         }
+    }
+
+
+    public function tripinator_create_new() {
+
         ?>
         <div class="wrap">
             <h1 id="add-new-user">Add New Trip</h1>
