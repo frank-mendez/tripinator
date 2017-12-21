@@ -1,121 +1,85 @@
+
 <?php
 /**
- * Created by PhpStorm.
- * User: frank
- * Date: 21/12/2017
- * Time: 11:00 AM
+ * The template for displaying all pages
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages
+ * and that other 'pages' on your WordPress site may use a
+ * different template.
+ *
+ * @link https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package WordPress
+ * @subpackage Twenty_Seventeen
+ * @since 1.0
+ * @version 1.0
  */
-get_header();
 
-$is_page_builder_used = et_pb_is_pagebuilder_used( get_the_ID() ); ?>
+get_header(); ?>
 
-    <div id="main-content">
+    <div class="wrap">
+        <div id="primary" class="content-area">
+            <main id="main" class="site-main" role="main">
+                <?php
+                if( isset($_REQUEST['submit_tripinator_form']) == 'submit' ) {
+                    global $wpdb;
+                    $tripinatorDB = $wpdb->prefix . "tripinator";
 
-        <?php if ( ! $is_page_builder_used ) : ?>
-
-        <div class="container">
-            <div id="content-area" class="clearfix">
-                <div id="left-area">
-
-                    <?php endif; ?>
-
-                    <?php while ( have_posts() ) : the_post(); ?>
-
-                        <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-
-                            <?php if ( ! $is_page_builder_used ) : ?>
-
-                                <h1 class="main_title"><?php the_title(); ?></h1>
-                                <?php
-                                $thumb = '';
-
-                                $width = (int) apply_filters( 'et_pb_index_blog_image_width', 1080 );
-
-                                $height = (int) apply_filters( 'et_pb_index_blog_image_height', 675 );
-                                $classtext = 'et_featured_image';
-                                $titletext = get_the_title();
-                                $thumbnail = get_thumbnail( $width, $height, $classtext, $titletext, $titletext, false, 'Blogimage' );
-                                $thumb = $thumbnail["thumb"];
-
-                                if ( 'on' === et_get_option( 'divi_page_thumbnails', 'false' ) && '' !== $thumb )
-                                    print_thumbnail( $thumb, $thumbnail["use_timthumb"], $titletext, $width, $height );
-                                ?>
-
-                            <?php endif; ?>
-
-                            <div class="entry-content">
-                                <?php
-                                if( isset($_REQUEST['submit_tripinator_form']) == 'submit' ) {
-                                    global $wpdb;
-                                    $tripinatorDB = $wpdb->prefix . "tripinator";
-
-                                    $sql_search = "SELECT * FROM {$tripinatorDB} 
+                    $sql_search = "SELECT * FROM {$tripinatorDB} 
                             WHERE days LIKE '%".$_POST['days']."%'
                             AND canoe_experience LIKE '%".$_POST['canoe']."%'
                             AND kayak_experience LIKE '%".$_POST['kayak']."%'
                             AND adversity LIKE '%".$_POST['adversity']."%'";
 
-                                    $result = $wpdb->get_results($sql_search, 'ARRAY_A');
-                                    if( !empty($result) ){
-                                        ?>
-                                        <table>
-                                            <thead>
-                                            <tr>
-                                                <td>Trip</td>
-                                                <td># of Days/hours</td>
-                                                <td>Type</td>
-                                                <td>Canoe Experience</td>
-                                                <td>Kayak Experience</td>
-                                                <td>handle adversity</td>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php
-                                            foreach($result as $data){ ?>
-                                                <tr>
-                                                    <td><?php echo $data['trip']; ?></td>
-                                                    <td><?php echo $data['days']; ?></td>
-                                                    <td><?php echo $data['type']; ?></td>
-                                                    <td><?php echo $data['canoe_experience']; ?></td>
-                                                    <td><?php echo $data['kayak_experience']; ?></td>
-                                                    <td><?php echo $data['adversity']; ?></td>
-                                                </tr>
-                                            <?php }
-                                            ?>
-                                            </tbody>
-                                        </table>
-                                    <?php } else {
-                                        echo 'No matching results found!';
-                                    }
-                                } else {
-                                    echo 'No search result';
-                                }
+                    $result = $wpdb->get_results($sql_search, 'ARRAY_A');
+                    if( !empty($result) ){
 
-                                the_content();
-
-                                if ( ! $is_page_builder_used )
-                                    wp_link_pages( array( 'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'Divi' ), 'after' => '</div>' ) );
-                                ?>
-                            </div> <!-- .entry-content -->
-
-                            <?php
-                            if ( ! $is_page_builder_used && comments_open() && 'on' === et_get_option( 'divi_show_pagescomments', 'false' ) ) comments_template( '', true );
+                        foreach($result as $data){
                             ?>
+                        <div class="row" style="margin-top: 30px;border-bottom:solid 1px grey;">
+                            <div class="row-title">
+                                <?php echo "Trip: ".$data['trip']; ?>
+                            </div>
+                            <div class="row-title">
+                                <?php echo "# of days/# of hours: ".$data['days']; ?>
+                            </div>
+                            <div class="row-image">
+                                <p>
+                                    <?php if(!empty($data['img_url'])) { ?>
+                                    <img width="200" height="200" src="<?php echo $data['img_url']; ?>" alt="">
+                                    <?php } else {  ?>
+                                    <img width="200" height="200" src="http://localhost/eventlisting/wp-content/uploads/2017/12/blank.jpg" alt="">
+                                    <?php } ?>
+                                </p>
+                                <?php echo $data['description']; ?>
+                                <a href="https://www.adventurecentral.com/user/web/cart/wfRentalDetails.aspx?RUID=196&C=1&CLUID=22177c21-3e92-4945-a0a9-9a553f413e66">More Info</a>
 
-                        </article> <!-- .et_pb_post -->
+                            </div>
 
-                    <?php endwhile; ?>
+                        </div>
+                    <?php }  } else {
+                        echo 'No matching results found!';
+                    }
+                } else {
+                    echo 'No search result';
+                } ?>
+                <?php
+                while ( have_posts() ) : the_post();
 
-                    <?php if ( ! $is_page_builder_used ) : ?>
+                    get_template_part( 'template-parts/page/content', 'page' );
 
-                </div> <!-- #left-area -->
+                    // If comments are open or we have at least one comment, load up the comment template.
+                    if ( comments_open() || get_comments_number() ) :
+                        comments_template();
+                    endif;
 
-                <?php get_sidebar(); ?>
-            </div> <!-- #content-area -->
-        </div> <!-- .container -->
+                endwhile; // End of the loop.
+                ?>
 
-    <?php endif; ?>
+            </main><!-- #main -->
+        </div><!-- #primary -->
+    </div><!-- .wrap -->
 
-    </div> <!-- #main-content -->
+<?php get_footer();
 
-<?php get_footer(); ?>

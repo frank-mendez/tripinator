@@ -54,6 +54,7 @@ class Admin_Tripinator {
                 <label>How do you handle adversity, like a breezy day?</label>
                 <input type="radio" value="It" class="adversity" name="adversity"> It is what it is
                 <input type="radio" value="flower" class="adversity" name="adversity"> I'm considered a delicate flower
+                <input type="radio" value="either" class="adversity" name="adversity"> Either
             </div>
 
 
@@ -95,6 +96,9 @@ class Admin_Tripinator {
             $canoe_experience = $_POST['canoe_experience'];
             $kayak_experience = $_POST['kayak_experience'];
             $adversity = $_POST['adversity'];
+            $description = $_POST['description'];
+            $img_url = $_POST['img_url'];
+            $external_url = $_POST['external_url'];
 
             $items = array(
                 'trip' => $trip,
@@ -102,7 +106,10 @@ class Admin_Tripinator {
                 'type' => $type,
                 'canoe_experience' => $canoe_experience,
                 'kayak_experience' => $kayak_experience,
-                'adversity' => $adversity
+                'adversity' => $adversity,
+                'description' => $description,
+                'img_url' => $img_url,
+                'external_url' => $external_url
             );
 
             global $wpdb;
@@ -155,7 +162,10 @@ class Admin_Tripinator {
                 'type' => '',
                 'canoe_experience' => '',
                 'kayak_experience' => '',
-                'adversity' => ''
+                'adversity' => '',
+                'description' => '',
+                'img_url' => '',
+                'external_url' => ''
             );
             /*initialize values*/
 
@@ -189,8 +199,26 @@ class Admin_Tripinator {
                             <td><input name="days" type="text" id="days" value="<?php echo $data['days']; ?>"></td>
                         </tr>
                         <tr class="form-field">
-                                <th scope="row"><label>Type </label></th>
+                            <th scope="row"><label>Type </label></th>
                             <td><input name="type" type="text" id="type" value="<?php echo $data['type']; ?>"></td>
+                        </tr>
+                        <tr class="form-field">
+                            <th scope="row"><label>Description </label></th>
+                            <td><textarea name="description" id="" cols="30" rows="10"><?php echo $data['description']; ?></textarea></td>
+                        </tr>
+                        <tr class="form-field">
+                            <th scope="row"><label>Image URL </label></th>
+                            <td>
+                                <input name="img_url" type="text" id="type" value="<?php echo $data['img_url']; ?>">
+                                <span><i>*Upload an image to your media library and copy the image url here*</i></span>
+                            </td>
+                        </tr>
+                        <tr class="form-field">
+                            <th scope="row"><label>External URL </label></th>
+                            <td>
+                                <input name="external_url" type="text" id="type" value="<?php echo $data['external_url']; ?>">
+                                <span><i>*Add the external URL for more info*</i></span>
+                            </td>
                         </tr>
                         <tr class="form-field">
                             <th scope="row"><label>Canoe Experience </label></th>

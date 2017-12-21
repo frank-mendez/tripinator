@@ -28,6 +28,7 @@ class tripinatorTable extends WP_List_Table{
             'trip' => __('Trip', 'ux') ,
             'days' => __('Days', 'ux') ,
             'type' => __('Type', 'ux') ,
+            'description' => __('Description', 'ux') ,
             'canoe_experience' => __('Canoe Experience', 'ux') ,
             'kayak_experience' => __('Kayak Experience', 'ux') ,
             'adversity' => __('Adversity', 'ux')
@@ -88,6 +89,7 @@ class tripinatorTable extends WP_List_Table{
             'trip' => __('Trip', 'ux') ,
             'days' => __('Days', 'ux') ,
             'type' => __('Type', 'ux') ,
+            'description' => __('Description', 'ux') ,
             'canoe_experience' => __('Canoe Experience', 'ux') ,
             'kayak_experience' => __('Kayak Experience', 'ux') ,
             'adversity' => __('Adversity', 'ux')
@@ -156,6 +158,7 @@ class tripinatorTable extends WP_List_Table{
             case 'trip':
             case 'days':
             case 'type':
+            case 'description':
             case 'canoe_experience':
             case 'kayak_experience':
             case 'adversity':
