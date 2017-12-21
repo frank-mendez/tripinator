@@ -17,6 +17,8 @@ function tripinator_install() {
 	$sql = "CREATE TABLE {$tripinatorDB} (
 	id mediumint(9) NOT NULL AUTO_INCREMENT,
 	trip varchar(64) NOT NULL,
+	description varchar(500),
+	img_url varchar(150),
 	days varchar(64),
 	type varchar(16),
 	canoe_experience varchar(64),
