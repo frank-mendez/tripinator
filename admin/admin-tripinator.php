@@ -29,7 +29,14 @@ class Admin_Tripinator {
         <form action="search-result" method="post" class="tripinator">
             <div>
                 <label>Number of days</label>
-                <input type="Text" value="" class="days" name="days">
+                <select name="days" class="days">
+                    <option value="">- Select -</option>
+                    <option value=".5">Half Day Trips</option>
+                    <option value="1">1 Day Trips</option>
+                    <option value="2">2 Days Trips</option>
+                    <option value="3">3 Days Trips</option>
+                    <option value="4">4+ Days Trips</option>
+                </select>
             </div>
             <div>
                 <label>Have you canoe before?</label>
