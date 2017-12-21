@@ -2,7 +2,7 @@
 
 /*Plugin Name: Tripinator
 Plugin URI: https://github.com/frank-mendez/tripinator
-Description: A WordPress plugin that allows you to import data from a spreadsheet to an Admin Page and will filter a Trip you desire.
+Description: A WordPress plugin that allows you to filter data from a custom WordPress table "wp_tripinator" and will filter a Trip you desire.
 Version: 1.0.0
 Author: Heaviside Group
 Author URI: https://www.heavisidegroup.com/

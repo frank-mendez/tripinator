@@ -9,7 +9,7 @@
 
 # Description
 
-> A WordPress plugin that allows you to import data from a spreadsheet to an Admin Page and will filter a Trip you desire.
+> A WordPress plugin that allows you to filter data from a custom WordPress table "wp_tripinator" and will filter a Trip you desire.
 
 # Shortcode
 
