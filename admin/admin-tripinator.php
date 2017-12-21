@@ -11,7 +11,17 @@ class Admin_Tripinator {
 		add_action( 'admin_menu', array( $this, 'tripinator_add_options_page' ) );
         add_action ('wp_loaded', array( $this, 'tripinator_submit_form' ) );
         add_shortcode( 'tripinator', array( $this, 'tripinator_shortcode' ) );
+        add_action( 'wp', array( $this, 'search_page_init' ) );
 	}
+
+    public function search_page_init() {
+        if(is_page('search-result')){
+            $dir = plugin_dir_path( __FILE__ );
+            include($dir."searchResult.php");
+            die();
+        }
+    }
+
 
 	public function tripinator_shortcode() {
         ob_start();
