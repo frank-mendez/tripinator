@@ -10,7 +10,40 @@ class Admin_Tripinator {
 	public function tripinator_init() {
 		add_action( 'admin_menu', array( $this, 'tripinator_add_options_page' ) );
         add_action ('wp_loaded', array( $this, 'tripinator_submit_form' ) );
+        add_shortcode( 'tripinator', array( $this, 'tripinator_shortcode' ) );
 	}
+
+	public function tripinator_shortcode() {
+        ob_start();
+	    ?>
+        <form action="search-result" method="post" class="tripinator">
+            <div>
+                <label>Number of days</label>
+                <input type="Text" value="" class="days" name="days">
+            </div>
+            <div>
+                <label>Have you canoe before?</label>
+                <input type="radio" value="yes" class="canoe" name="canoe">Yes
+                <input type="radio" value="no" class="canoe" name="canoe">No
+            </div>
+
+            <div>
+                <label>Kayak camped before?</label>
+                <input type="radio" value="yes" class="kayak" name="kayak">Yes
+                <input type="radio" value="no" class="kayak" name="kayak">No
+            </div>
+
+            <div>
+                <label>How do you handle adversity, like a breezy day?</label>
+                <input type="radio" value="It" class="adversity" name="adversity"> It is what it is
+                <input type="radio" value="flower" class="adversity" name="adversity"> I'm considered a delicate flower
+            </div>
+
+
+            <button type="submit" name="submit_tripinator_form" value="submit">GET STARTED</button>
+        </form>
+        <?php return ob_get_clean();
+    }
 
 	public function tripinator_add_options_page() {
 
@@ -78,7 +111,7 @@ class Admin_Tripinator {
         global $wpdb;
         $tripinatorDB = $wpdb->prefix . "tripinator";
 
-        $item = $wpdb->get_row($wpdb->prepare("SELECT * FROM $tripinatorDB WHERE id = %d", $id), ARRAY_A);
+        $item = $wpdb->get_row("SELECT * FROM $tripinatorDB WHERE id = $id", ARRAY_A);
 
         return $item;
     }
@@ -107,13 +140,15 @@ class Admin_Tripinator {
                 'kayak_experience' => '',
                 'adversity' => ''
             );
+            /*initialize values*/
+
+            $wpdb->insert($tripinatorDB, $default_values);
 
             $validate = $wpdb->get_row("SELECT * FROM $tripinatorDB ORDER BY id DESC LIMIT 1", ARRAY_A );
             if($validate['trip'] == "") {
                 $id = $validate['id'];
                 $data = $this->tripinator_get_by_id($id);
             } else {
-                $wpdb->insert($tripinatorDB, $default_values);
                 $id = $wpdb->insert_id;
                 $data = $this->tripinator_get_by_id($id);
             }
@@ -165,30 +200,40 @@ class Admin_Tripinator {
     }
 
 
+
 	public function tripinator_admin_page_render() {
 
         require_once ('tripinatorTable.php');
         $table = new tripinatorTable();
-        if ( isset($_REQUEST['action']) ) {
+        if ( isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete' ) {
             global $wpdb;
             $tripinatorDB = $wpdb->prefix . "tripinator";
             $id = $_REQUEST['id'];
             $wpdb->delete("$tripinatorDB", ['id' => $id], ['%d']);
         }
+
         ?>
         <div class="wrap">
-            <h2>Tripinator Admin Page</h2>
+            <h1 class="wp-heading-inline">Tripinator Admin Page</h1>
             <a href="admin.php?page=form-tripinator" class="page-title-action">Add New</a>
+            <span class="subtitle">
+                <?php if(isset($_REQUEST['s'])){
+                    echo 'Search result for "'.$_REQUEST['s'].'"';
+                } else {
+                    echo '';
+                } ?>
+            </span>
             <div id="poststuff">
                 <div id="post-body" class="metabox-holder">
                     <div id="post-body-content">
                         <div class="meta-box-sortables ui-sortable">
                             <form method="post">
+                                <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>" />
                                 <?php
-                                $table->prepare_items();
-                                $table->search_box('Search', 'search');
-                                $table->display();
-                                 ?>
+                                    $table->prepare_items();
+                                    $table->search_box('Search', 'search_id');
+                                    $table->display();
+                                ?>
                             </form>
                         </div>
                     </div>

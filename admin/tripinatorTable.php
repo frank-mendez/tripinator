@@ -63,16 +63,22 @@ class tripinatorTable extends WP_List_Table{
         }
         $sql.= " LIMIT $per_page";
         $sql.= ' OFFSET ' . ($page_number - 1) * $per_page;
-        $result = $wpdb->get_results($sql, 'ARRAY_A');
-        /*$result = array([
-           'id' => 1,
-           'trip' => 'Sauk City to Wyalusing',
-            'days' => '4',
-            'type' => 'paddle',
-            'canoe_experience' => 'yes',
-            'kayak_experience' => 'yes',
-            'adversity' => 'It is what…'
-        ]);*/
+
+        if( isset($_REQUEST['s']) ) {
+            $search_data = $_REQUEST['s'];
+            $sql_search = "SELECT * FROM {$tripinatorDB} 
+                            WHERE trip LIKE '%".$search_data."%'
+                            OR days LIKE '%".$search_data."%'
+                            OR `type` LIKE '%".$search_data."%'
+                            OR canoe_experience LIKE '%".$search_data."%'
+                            OR kayak_experience LIKE '%".$search_data."%'
+                            OR adversity LIKE '%".adversity ."%'";
+
+            $result = $wpdb->get_results($sql_search, 'ARRAY_A');
+        } else {
+            $result = $wpdb->get_results($sql, 'ARRAY_A');
+        }
+
         return $result;
     }
 
