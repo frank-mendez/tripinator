@@ -50,7 +50,6 @@ $is_page_builder_used = et_pb_is_pagebuilder_used( get_the_ID() ); ?>
                                     $sql_search = "SELECT * FROM {$tripinatorDB} 
                             WHERE days LIKE '%".$_POST['days']."%'
                             AND canoe_experience LIKE '%".$_POST['canoe']."%'
-                            AND kayak_experience LIKE '%".$_POST['kayak']."%'
                             AND adversity LIKE '%".$_POST['adversity']."%'";
 
                                     $result = $wpdb->get_results($sql_search, 'ARRAY_A');
@@ -80,14 +79,22 @@ $is_page_builder_used = et_pb_is_pagebuilder_used( get_the_ID() ); ?>
                                                     <?php echo preg_replace('/\\\\/', '',$data['description']); ?>
                                                 </div>
                                                 <div style="height: 40px;margin-top: 30px;">
-                                                    <a class="button media-button"
-                                                       target="_blank"
+                                                    <!-- <a class="button media-button"
                                                        style="padding: 20px;
                                                                 background: #2ea3f2;
                                                                 color: white;
                                                                 margin-bottom: 20px;
                                                                 border-radius: 3px;"
                                                        href="<?php echo $data['external_url']; ?>">
+                                                        More Info
+                                                    </a> -->
+                                                    <a class="button media-button"
+                                                       style="padding: 20px;
+                                                                background: #2ea3f2;
+                                                                color: white;
+                                                                margin-bottom: 20px;
+                                                                border-radius: 3px;"
+                                                       href="more-info?link=<?php echo trim($data['external_url']); ?>">
                                                         More Info
                                                     </a>
                                                 </div>
