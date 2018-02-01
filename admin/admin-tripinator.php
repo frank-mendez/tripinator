@@ -26,35 +26,58 @@ class Admin_Tripinator {
 	public function tripinator_shortcode() {
         ob_start();
 	    ?>
+        <style>
+            select {
+                border-radius: 3px;
+                height: 35px;
+                width: 100%;
+                border-color: #fefefe!important;
+                background-color: transparent!important;
+                color: white;
+                -webkit-appearance: none;
+            }
+            select:focus {
+                border-radius: 3px;
+                height: 35px;
+                width: 100%;
+                border-color: #fefefe!important;
+                background-color: transparent!important;
+                color: white;
+                -webkit-appearance: none;
+            }
+            option{
+                color: black;
+            }
+
+        </style>
         <form action="search-result" method="post" class="tripinator">
             <div>
                 <label>Number of days</label>
                 <select name="days" class="days">
                     <option value="">- Select -</option>
-                    <option value=".5">Half Day Trips</option>
-                    <option value="1">1 Day Trips</option>
-                    <option value="2">2 Days Trips</option>
-                    <option value="3">3 Days Trips</option>
-                    <option value="4">4+ Days Trips</option>
+                    <option value=".5">Half Day</option>
+                    <option value="1">1 Day</option>
+                    <option value="2">2 Days</option>
+                    <option value="3">3 Days</option>
+                    <option value="4">4+ Days</option>
                 </select>
             </div>
             <div>
-                <label>Have you canoe before?</label>
-                <input type="radio" value="yes" class="canoe" name="canoe">Yes
-                <input type="radio" value="no" class="canoe" name="canoe">No
+                <label>Have you paddle camped before?</label>
+                <select name="canoe" class="days">
+                    <option value="">- Select -</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
             </div>
-
-            <div>
-                <label>Kayak camped before?</label>
-                <input type="radio" value="yes" class="kayak" name="kayak">Yes
-                <input type="radio" value="no" class="kayak" name="kayak">No
-            </div>
-
             <div>
                 <label>How do you handle adversity, like a breezy day?</label>
-                <input type="radio" value="It" class="adversity" name="adversity"> It is what it is
-                <input type="radio" value="flower" class="adversity" name="adversity"> I'm considered a delicate flower
-                <input type="radio" value="either" class="adversity" name="adversity"> Either
+                <select name="adversity" class="days">
+                    <option value="">- Select -</option>
+                    <option value="It">It is what it is</option>
+                    <option value="flower">I'm considered a delicate flower</option>
+                </select>
+
             </div>
 
 
@@ -204,7 +227,7 @@ class Admin_Tripinator {
                         </tr>
                         <tr class="form-field">
                             <th scope="row"><label>Description </label></th>
-                            <td><textarea name="description" id="" cols="30" rows="10"><?php echo $data['description']; ?></textarea></td>
+                            <td><textarea name="description" id="" cols="30" rows="10"><?php echo preg_replace('/\\\\/', '',$data['description']); ?></textarea></td>
                         </tr>
                         <tr class="form-field">
                             <th scope="row"><label>Image URL </label></th>
